@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html>
+<head> 
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="./favicon.ico">
+    <title>
+        
+    </title>
+    <link rel="stylesheet" href="./icon.css" type="text/css" />
+    <script src="./jq.js"></script>
+    <style type="text/css">
+        @font-face {
+            font-family:"SSTPro-Light";src:url(./SSTPro-Light.ttf);
+        }
+
+        *{
+            margin: 0;
+            padding: 0;
+            transition: all 0.5s, opacity 0.25s;
+            cursor: default;
+        }
+
+        html{
+            color: #FFF;
+            width: 100%;
+            height: 100%;
+            background: #08277B;
+            /*background: -webkit-linear-gradient(#08277B, #062F78, #052055);*/
+            overflow: hidden;
+            font-family: "SSTPro-Light","SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+        }
+
+        .bg img{
+            width: 50px;
+            filter: blur(2px);
+            -webkit-filter: blur(2px);
+            opacity: 0.2;
+        }
+
+        @keyframes toLeft {
+            0% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0);
+            }
+            100% {
+                -webkit-transform: translate(-200px, 0);
+                transform: translate(-200px, 0);
+            }
+        }
+
+        @keyframes toRight {
+            0% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0);
+            }
+            100% {
+                -webkit-transform: translate(200px, 0);
+                transform: translate(200px, 0);
+            }
+        }
+
+        .list01{
+            width: 2000px;
+            height: 50px;
+        }
+        .line01{
+            -webkit-animation: 4s toLeft linear infinite normal;
+            animation: 4s toLeft linear infinite normal;
+        }
+        .list02{
+            float: right;
+            width: 2000px;
+            height: 50px;
+        }
+        .list02 img{
+            float: right;
+        }
+        .line02{
+            -webkit-animation: 4s toRight linear infinite normal;
+            animation: 4s toRight linear infinite normal;
+        }
+        .list03{
+            position: absolute;
+            right: 0;
+            bottom: 50px;
+            width: 2000px;
+            height: 50px;
+        }
+        .list03 img{
+            float: right;
+        }
+        .line03{
+            -webkit-animation: 4s toRight linear infinite normal;
+            animation: 4s toRight linear infinite normal;
+        }
+        .list04{
+            position: absolute;
+            bottom: 0px;
+            width: 2000px;
+            height: 50px;
+        }
+        .line04{
+            -webkit-animation: 4s toLeft linear infinite normal;
+            animation: 4s toLeft linear infinite normal;
+        }
+
+        .content{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        #panelWelcome{
+            top: 0;
+            opacity: 1;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            /*transform: scale(1);*/
+            vertical-align: middle;
+        }
+
+        #contentWelcome{
+            top: 50%;
+            left: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            text-align: left;
+        }
+
+        #contentWelcome #title{
+            font-size: 100px;
+        }
+
+        #contentWelcome li{
+            margin-top: 25px;
+            max-width: 150px;
+        }
+
+        #contentWelcome img{
+            width: 150px;
+            filter: initial;
+            -webkit-filter: initial;
+            opacity: 1;
+        }
+
+        #contentWelcome p{
+            color: #FFF;
+            border: none;
+            font-size: 20px;
+            background-color: transparent;
+        }
+
+        #panelSettings, #panelSettings01{
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform: scale(2);
+            vertical-align: middle;
+        }
+
+        #contentSettings, #contentSettings01{
+            height: 100%;
+            text-align: left;
+            background: rgba(0,0,0,0.2);
+        }
+
+        #contentSettings p, #contentSettings01 p{
+            font-size: 40px;
+        }
+
+        .menuTitle{
+            padding-top: 50px;
+            padding-left: 100px;
+        }
+
+        .line{
+            background: rgba(255,255,255,0.3);
+            width: 100%;
+            height: 1px;
+        }
+
+        ul{
+            width: 80%;
+            height: calc(100% - 108px);
+            padding-left: 150px;
+            overflow: scroll;
+            font-size: 20px;
+        }
+
+        li{
+            color: #FFF;
+            padding: 20px;
+            list-style: none;
+            border: 2px transparent solid;
+        }
+
+        li:hover{
+            -webkit-animation: 2s selectedItemBorderAnim linear infinite normal;
+            animation: 2s selectedItemBorderAnim linear infinite normal;
+        }
+
+        @keyframes selectedItemBorderAnim {
+            0% {
+                border-color: rgba(255,255,255,0.3);
+            }
+            50% {
+                border-color: #FFF;
+            }
+            100% {
+                border-color: rgba(255,255,255,0.3);
+            }
+        }
+
+        #panelInsertDisc{
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform: scale(2);
+            vertical-align: middle;
+        }
+
+        #contentInsertDisc{
+            top: 50%;
+            left: 50%;
+            font-size: 20px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        #panelGames{
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform: scale(2);
+            vertical-align: middle;
+        }
+
+        .main {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+        
+        .header {
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            font-size: 18px;
+            border-bottom: rgba(255, 255, 255, 10) 0px solid;
+        }
+        
+        .footer {
+            width: 100%;
+            bottom: 0px;
+            position: absolute;
+            /*background: rgba(64, 64, 64, 1);*/
+            border-top: rgba(255, 255, 255, 10) 1px solid;
+        }
+        
+        canvas {
+            width: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+        
+        .keyB {
+            width: 30px;
+            height: 30px;
+            background-color: #FFF;
+            border-radius: 25px;
+            float: right;
+            margin: 20px 0px;
+        }
+        
+        .keyT {
+            height: 30px;
+            line-height: 30px;
+            display: block;
+            color: #555;
+            text-align: center;
+        }
+        
+        .keyT:hover {
+            cursor: pointer;
+            border-radius: 25px;
+            color: #AAA;
+        }
+        
+        .keyD {
+            float: right;
+            margin: 25px 40px 20px 15px;
+        }
+        
+        .keyD:hover {
+            border-radius: 666px;
+            background: #FFF;
+            color: #333;
+            padding: 0px 10px;
+            cursor: pointer;
+        }
+        
+        .center {
+            height: 100%;
+        }
+        
+        .grid {
+            float: left;
+            width: 3000px;
+            position: absolute;
+            left: 0px;
+            top: 100px;
+        }
+        
+        .gItemCurrent {
+            margin: 10px 10px;
+            display: block;
+            float: left;
+            font-size: 14px;
+            -webkit-animation: animCurrent 2s infinite;
+        }
+        
+        .gItemCurrent:hover {
+            box-shadow: 0 0 10px #FFF;
+        }
+        
+        .gItemCurrent center {
+            opacity: 1;
+            padding: 10px;
+        }
+        
+        .gItemCurrent div {
+            background: #000;
+            width: 250px;
+            height: 250px;
+        }
+        
+        .gItemNormal {
+            margin: 10px 2px;
+            display: block;
+            font-size: 14px;
+            float: left;
+        }
+        
+/*        .gItemNormal:hover {
+            box-shadow: 0 0 10px #FFF;
+        }*/
+        
+        .gItemNormal center {
+            opacity: 0;
+            padding: 10px;
+        }
+        
+        .gItemNormal div {
+            background: #000;
+            width: 150px;
+            height: 150px;
+        }
+        
+        .gItemFloat{
+            position: absolute;
+            left: 120px;
+            top: 196px;
+            background: #000;
+            width: 300px;
+            visibility: hidden;
+            height: 300px;
+        }
+        
+        .menu{
+             position: absolute; 
+             width: 0px; 
+             height: 100%; 
+             right: 0px; 
+             top: 0px; 
+             color: #000;
+             box-shadow: 0 0 100px #000;
+             background: rgba(255,255,255,0.3);
+        }
+        
+        .menu li{
+            width: 100%;
+            padding: 10% 8%;
+            margin: 0px;
+            list-style: none;
+            left: 0px;
+            background: rgba(255,255,255,0.4);
+        }
+        
+        .menu li:hover{
+            width: 100%;
+            padding: 10% 12%;
+            margin: 0px;
+            list-style: none;
+            left: 0px;
+            background: rgba(255,255,255,0.9);
+        }
+        
+        canvas {
+            display: block;
+            outline: 0px;
+            margin-bottom: 1.5em;
+        }
+        
+        @-webkit-keyframes animCurrent {
+            0% {
+                box-shadow: 0 0 4px #FFF;
+            }
+            50% {
+                box-shadow: 0 0 10px #FFF;
+            }
+            100% {
+                box-shadow: 0 0 4px #FFF;
+            }
+        }
+
+        .btn{
+            padding: 10px 100px;
+            margin-top: 100px;
+            box-shadow: 0 0 4px #FFF;
+            border: rgba(255,255,255,0.8) solid 2px;
+            -webkit-animation: animCurrent 2s infinite;
+        }
+        
+        @-webkit-keyframes animTitle {
+            0% {
+                opacity: 0;
+            }
+            30% {
+                opacity: 0;
+                transform: translateY(50%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0%);
+            }
+        }
+
+        .gameTitle{
+            top: 360px;
+            left: 430px;
+            font-size: 30px;
+            position: absolute;
+        }
+
+        .DS4{
+            opacity: 0;
+        }
+
+        .ds4nav{
+            position: fixed;
+            display: table;
+            font-size: 25px;
+            text-align: center; 
+        }
+
+        .ds4nav:hover{
+            transform: scale(1.2);
+        }
+
+        .ds4navBG{
+            width: 0px;
+            height: 0px;
+            padding: 30px;
+            position: absolute;
+            border-radius: 99px;
+            left: calc(50% - 30px);
+            top: calc(50% - 30px);
+            /*border: 2px #FFF solid;*/
+            background: rgba(0,0,0,0.75);
+            /*background: -webkit-linear-gradient(#4C4B4B, #2A2320);*/
+        }
+
+        .ds4navV{
+            color: #FFF;
+            top: 2.5%;
+            left: 20%;
+            position: absolute;
+        }
+
+        .ds4nav img{
+            top: 25%;
+            left: 25%;
+            position: absolute;
+            width: 30px;
+            /*filter: brightness(100);*/
+        }
+    </style>
+    <script type="text/javascript">
+        var panelZ=10;
+        var panels = [];
+        function panelToPanel(panel1, panel2){
+            panels[panelZ]=panel1;
+            panelZ--;
+            panels[panelZ]=panel2;
+            var panel1 = document.getElementById(panel1);
+            var panel2 = document.getElementById(panel2);
+            panel1.style.opacity=0;
+            panel1.style.transform="scale(0)";
+            panel2.style.opacity=1;
+            panel2.style.transform="scale(1)";
+
+            if(panelZ < 10){
+                $('.DS4').css('opacity', '1');
+            }
+        }
+        function panelBack(){
+            if(panelZ < 10){
+                var panel1 = document.getElementById(panels[panelZ+1]);
+                var panel2 = document.getElementById(panels[panelZ]);
+                panel1.style.opacity=1;
+                panel1.style.transform="scale(1)";
+                panel2.style.opacity=0;
+                panel2.style.transform="scale(2)";
+                prevPanel = "";
+                currPanel = "";
+                panelZ++;
+
+                if(panelZ >= 10){
+                    $('.DS4').css('opacity', '0');
+                }
+            }
+        }
+        document.onkeydown = function(){
+            var oEvent = window.event;
+            if (oEvent.keyCode == 27) {
+                panelBack();
+            }
+        }
+
+    </script>
+</head>
+<body ondragstart="return false;" onselectstart="return false;">
+    <div class="bg">
+        <div class="list01">
+            <div class="line01">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+            </div>
+        </div>
+        <div class="list02">
+            <div class="line02">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+            </div>
+        </div>
+        <div class="list03">
+            <div class="line03">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+            </div>
+        </div>
+        <div class="list04">
+            <div class="line04">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+                <img src="./ps-circle.svg"><img src="./ps-cross.svg"><img src="./ps-square.svg"><img src="./ps-triangle.svg">
+            </div>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div id="panelSettings01">
+            <div id="contentSettings01">
+                <p class="menuTitle">系统设定</p>
+                <p class="line"></p>
+                <ul>
+                    <li>Setting 01</li>
+                    <p class="line"></p>
+                    <li>Setting 02</li>
+                    <p class="line"></p>
+                    <li>Setting 03</li>
+                    <p class="line"></p>
+                    <li>Setting 04</li>
+                    <p class="line"></p>
+                    <li>Setting 05</li>
+                </ul>
+            </div>
+        </div>
+        <div id="panelInsertDisc">
+            <div id="contentInsertDisc">
+                <p>请插入光盘.</p>
+                <div class="btn" onclick="panelBack()">OK</div>
+            </div>
+        </div>
+        <div id="panelSettings">
+            <div id="contentSettings">
+                <p class="menuTitle">系统设定</p>
+                <p class="line"></p>
+                <ul>
+                    <li onclick="panelToPanel('panelSettings', 'panelSettings01')">Setting 01</li>
+                    <p class="line"></p>
+                    <li>Setting 02</li>
+                    <p class="line"></p>
+                    <li>Setting 03</li>
+                    <p class="line"></p>
+                    <li>Setting 04</li>
+                    <p class="line"></p>
+                    <li>Setting 05</li>
+                    <p class="line"></p>
+                    <li>Setting 06</li>
+                    <p class="line"></p>
+                    <li>Setting 07</li>
+                    <p class="line"></p>
+                    <li>Setting 08</li>
+                    <p class="line"></p>
+                    <li>Setting 09</li>
+                    <p class="line"></p>
+                    <li>Setting 10</li>
+                </ul>
+            </div>
+        </div>
+        <div id="panelGames">
+            <div class="main">
+                <div class="header">
+                    <span class="sb-icon--plus" style="position: absolute; left: 5%; top: 30px; color: #FEDD32; font-size: 35px;"></span>
+                    <span class="sb-icon--calendar" style="position: absolute; left: 35%; top: 0; color: #FFF; font-size: 35px; opacity: 0;"></span>
+                    <span class="sb-icon--messages" style="position: absolute; left: 45%; top: 0; color: #FFF; font-size: 35px; opacity: 0;"></span>
+                    <span class="sb-icon--party" style="position: absolute; left: 55%; top: 0; color: #FFF; font-size: 35px; opacity: 0;"></span>
+                    <span class="sb-icon--game" style="position: absolute; left: 65%; top: 0; color: #FFF; font-size: 35px; opacity: 0;"></span>
+                    <span class="sb-icon--notifications" style="position: absolute; left: 15%; top: 30px; color: #FFF; font-size: 35px;"></span>
+                    <div class="notification" style="position: absolute; left: 19%; top: 45px; width: 20%; height: 20px; overflow: hidden;">
+                        <p style="-webkit-animation: 12s toLeft linear infinite normal; height: 20px;white-space: nowrap;">已获得奖杯. Internet connection and PlayStation®Plus required for online multiplayer.</p>
+                        <!-- <marquee behavior="scroll" direction="left" loop="infinite" scrollamount="50" scrolldelay="1000" >
+                            已获得奖杯. Internet connection and PlayStation®Plus required for online multiplayer.
+                        </marquee> -->
+                    </div>
+                    <span class="sb-icon--friends" style="position: absolute; left: 40%; top: 30px; color: #FFF; font-size: 35px;"></span>
+                    <img class="avatar" src="./avatar.png" style="position: absolute; width: 40px; height: 40px; top: 35px; left: 50%;" />
+                    <d class="username" style="position: absolute; top:45px; left: calc(50% + 50px);">feihu</d>
+                    <span class="sb-icon--trophies" style="position: absolute; left: 80%; top: 30px; color: #FFF; font-size: 35px;"></span>
+                    <d class="time" style="position: absolute; left: 90%; top: 45px; ">8:00 AM</d>
+                </div>
+
+                <div class="center">
+                    <div class="grid">
+                    </div>
+                    <p class="gameTitle">Persona 5</p>
+                </div>
+                
+<!--                 <div class="footer">
+                    <div>
+                        <d class="keyD" onclick="toRight()">Right</d>
+                        <div class="keyB" onclick="toRight()">
+                            <d class="keyT" onclick="toRight()">D</d>
+                        </div>
+
+                        <d class="keyD" onclick="toLeft()">Left</d>
+                        <div class="keyB" onclick="toLeft()">
+                            <d class="keyT" onclick="toLeft()">A</d>
+                        </div>
+
+                        <d class="keyD" onclick="toEnter()">Select</d>
+                        <div class="keyB" onclick="toEnter()">
+                            <d class="keyT" onclick="toEnter()">Enter</d>
+                        </div>
+
+                        <d class="keyD" onclick="toEsc()">Cancel</d>
+                        <div class="keyB" onclick="toEsc()">
+                            <d class="keyT" onclick="toEsc()">Esc</d>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="menu">
+                    <ul>
+                        <li style="position: absolute; top: 30%;">Start</li>
+                        <li style="position: absolute; top: 40%;">Info</li>
+                        <li style="position: absolute; top: 50%;">Delete</li>
+                        <li style="position: absolute; top: 60%;">Share</li>
+                    </ul>
+                </div> -->
+            </div>
+            <img class="gItemFloat" />
+        </div>
+        <div id="panelWelcome">
+            <!-- <div class="bgVideo" style="height: 100%;">
+                <video data-object-fit="cover" muted="" playsinline="" webkit-playsinline="" loop="" autoplay="" style="width: 100%; height: 100%; object-fit: fill;">
+                    <source src="./flow.mp4">
+                </video>
+            </div> -->
+            <img src="./playstation4.svg" style="position: absolute; top: 0px; left: 0px; padding: 50px; width: 20%;">
+            <div id="contentWelcome">
+                <center style="margin-bottom: 25px;"><p>欢迎回到PlayStation®</p></center>
+                <p><span class="sb-icon--game sb-icon--solid-white" style="vertical-align: middle;"></span> 已连接 DUALSHOCK™4 无线控制器.</p>
+                <p>谁在使用此控制器?</p>
+                <center>
+                    <li onclick="panelToPanel('panelWelcome', 'panelGames')">
+                        <img src="./avatar.png">
+                        <p>feihu</p>
+                    </li>
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <div class="DS4">
+        <div class="ds4nav" style="left: 5%; top: 75%;" onclick="toLeft()">
+            <div class="ds4navBG">
+                <span class="ds4navV sb-icon--chevron-left"></span>
+            </div>
+        </div>
+        <div class="ds4nav"  style="left: 5%; top: 75%; margin-left: 120px;" onclick="toRight()">
+            <div class="ds4navBG">
+                <span class="ds4navV sb-icon--chevron-right"></span>
+            </div>
+        </div>
+        <div class="ds4nav"  style="left: 5%; top: 75%; margin-left: 60px; margin-top: -60px;" onclick="toDown()">
+            <div class="ds4navBG">
+                <span class="ds4navV sb-icon--chevron-top"></span>
+            </div>
+        </div>
+        <div class="ds4nav"  style="left: 5%; top: 75%; margin-left: 60px; margin-top: 60px;" onclick="toUp()">
+            <div class="ds4navBG">
+                <span class="ds4navV sb-icon--chevron-down"></span>
+            </div>
+        </div>
+        <div class="ds4nav"  style="right: 5%; top: 75%; margin-right: 60px; margin-top: -60px;" onclick="toUp()">
+            <div class="ds4navBG">
+                <img src="./ps-triangle.svg"/>
+            </div>
+        </div>
+        <div class="ds4nav"  style="right: 5%; top: 75%; margin-right: 120px;" onclick="toUp()">
+            <div class="ds4navBG">
+                <img src="./ps-square.svg"/>
+            </div>
+        </div>
+        <div class="ds4nav"  style="right: 5%; top: 75%;" onclick="toEnter()">
+            <div class="ds4navBG">
+                <img src="./ps-circle.svg"/>
+            </div>
+        </div>
+        <div class="ds4nav"  style="right: 5%; top: 75%; margin-right: 60px; margin-top: 60px;" onclick="toBack()">
+            <div class="ds4navBG">
+                <img src="./ps-cross.svg"/>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        items = ['What\'s New', 'Persona 5', 'Final Fantasy XII', '勇者鬥惡龍XI', 'Fate/EXTELLA',
+            'Project DIVA Future Tone', 'The King of Fighters XIV', 'DW: Godseekers',
+            'Atelier Firis', 'Toukiden 2', 'Gravity Rush™ 2'
+            // , 'The King of Fighters XIII',
+            // 'Dishonored 2', 'NieR: Automata', 'SAO: Hollow Realization', 'Touhou: Scarlet Curiosity',
+            // 'N.E.R.O.', 'Odin Sphere Leifthrasir', 'Docs for PlayStation®', 'Megadimension'
+        ];
+        s = "";
+        for(i = 0; i < items.length; i++) {
+            s += "<div class=\"gItemNormal\">";
+            s += "<div style=\"background: url('./images/g" + i + ".jpg'); background-size: 100%;\">";
+            s += "</div>";
+            s += "<center>启动</center>";
+            s += "</div>";
+            s += "";
+        }
+        $(".grid").html(s);
+        $(".gItemNormal:eq(1)").attr("class", "gItemCurrent");
+    </script>
+    <script>
+        index = 1;
+        gamePanelDown = false;
+        menuShow=false;
+        left = $('.grid').position().left;
+        
+        $(".gameTitle")[0].addEventListener("webkitAnimationEnd",function(){
+            $(".gameTitle").css("-webkit-animation","");
+        });
+
+        function toLeft() {
+            if(index == 0) {
+                return;
+            } else {
+                index--;
+                left += 154;
+                $('.grid').css('left', left);
+                $(".gItemCurrent").attr("class", "gItemNormal");
+                $(".gameTitle").css("-webkit-animation", "animTitle 0.3s");
+                $(".gameTitle").html(items[index]);
+                $(".gItemNormal:eq(" + index + ")").attr("class", "gItemCurrent");
+            }
+        }
+
+        function toRight() {
+            if(index == items.length - 1) {
+                return;
+            } else {
+                index++;
+                left -= 154;
+                $('.grid').css('left', left);
+                $(".gItemCurrent").attr("class", "gItemNormal");
+                $(".gameTitle").css("-webkit-animation", "animTitle 0.3s");
+                $(".gameTitle").html(items[index]);
+                $(".gItemNormal:eq(" + index + ")").attr("class", "gItemCurrent");
+            }
+        }
+
+        function toDown(){
+            gamePanelDown = true;
+            $('.avatar').css('top', '76%');
+            $('.avatar').css('left', '70%');
+            $('.grid').css('top', "95%");
+            $('.gameTitle').css('top', "95%");
+            $('.sb-icon--plus').css('top', '75%');
+            $('.sb-icon--plus').css('left', '10%');
+            $('.sb-icon--notifications').css('top', '75%');
+            $('.sb-icon--notifications').css('left', '20%');
+            $('.sb-icon--friends').css('top', '75%');
+            $('.sb-icon--friends').css('left', '30%');
+            $('.sb-icon--calendar').css('top', '75%');
+            $('.sb-icon--calendar').css('left', '40%');
+            $('.sb-icon--calendar').css('opacity', '1');
+            $('.sb-icon--messages').css('top', '75%');
+            $('.sb-icon--messages').css('left', '50%');
+            $('.sb-icon--messages').css('opacity', '1');
+            $('.sb-icon--party').css('top', '75%');
+            $('.sb-icon--party').css('left', '60%');
+            $('.sb-icon--party').css('opacity', '1');
+            $('.sb-icon--trophies').css('top', '75%');
+            $('.sb-icon--trophies').css('left', '80%');
+            $('.sb-icon--game').css('top', '75%');
+            $('.sb-icon--game').css('left', '90%');
+            $('.sb-icon--game').css('opacity', '1');
+            $('.notification').css('opacity', '0');
+            $('.username').css('opacity', '0');
+            $('.time').css('opacity', '0');
+        }
+
+        function toUp(){
+            gamePanelDown = false;
+            $('.avatar').css('top', '35px');
+            $('.avatar').css('left', '50%');
+            $('.grid').css('top', "100px");
+            $('.gameTitle').css('top', "360px");
+            $('.sb-icon--plus').css('top', '30px');
+            $('.sb-icon--plus').css('left', '5%');
+            $('.sb-icon--notifications').css('top', '30px');
+            $('.sb-icon--notifications').css('left', '15%');
+            $('.sb-icon--friends').css('top', '30px');
+            $('.sb-icon--friends').css('left', '40%');
+            $('.sb-icon--calendar').css('top', '0');
+            $('.sb-icon--calendar').css('left', '35%');
+            $('.sb-icon--calendar').css('opacity', '0');
+            $('.sb-icon--messages').css('top', '0');
+            $('.sb-icon--messages').css('left', '45%');
+            $('.sb-icon--messages').css('opacity', '0');
+            $('.sb-icon--party').css('top', '0');
+            $('.sb-icon--party').css('left', '55%');
+            $('.sb-icon--party').css('opacity', '0');
+            $('.sb-icon--trophies').css('top', '30px');
+            $('.sb-icon--trophies').css('left', '80%');
+            $('.sb-icon--game').css('top', '0');
+            $('.sb-icon--game').css('left', '65%');
+            $('.sb-icon--game').css('opacity', '0');
+            $('.notification').css('opacity', '1');
+            $('.username').css('opacity', '1');
+            $('.time').css('opacity', '1');
+        }
+        
+        function toEnter(){
+            if(panelZ == 9){
+                if(gamePanelDown){
+                    $('#panelSettings').css('display', 'inherit');
+                    $('#panelInsertDisc').css('display', 'none');
+                    panelToPanel("panelGames", "panelSettings");
+                }
+                else{
+                    $('#panelSettings').css('display', 'none');
+                    $('#panelInsertDisc').css('display', 'inherit');
+                    panelToPanel("panelGames", "panelInsertDisc");
+                }
+            }
+            // if(!menuShow){
+            //     menuShow=true;
+            //     $(".gItemFloat").css("visibility", "visible");
+            //     $(".center").css("-webkit-filter", "blur(30px)");
+            //     $(".footer,.header").css("-webkit-filter", "blur(5px)");
+            //     $(".menu").css("width","300px");
+            //     $(".gItemFloat").attr("src","./images/g" + (index + 1) + ".jpg");
+            // }
+        }
+
+        function toBack(){
+            panelBack();
+        }
+
+        function toEsc(){
+            if(menuShow){
+                menuShow=false;
+                $(".center").css("-webkit-filter", "blur(0px)");
+                $(".footer,.header").css("-webkit-filter", "blur(0px)");
+                $(".menu").css("width","0px");
+                $(".gItemFloat").css("visibility", "hidden");
+            }
+        }
+
+        $(document).keydown(function(event) {
+            if(event.keyCode == 87) { //w
+                if(panelZ == 9){
+                    toDown();
+                }
+            }
+            else if(event.keyCode == 83) { //s
+                if(panelZ == 9){
+                    toUp();
+                }
+            }
+            else if(event.keyCode == 65) { //a
+                toLeft();
+            }
+            else if(event.keyCode == 68) { //d
+                toRight();
+            }
+            else if(event.keyCode == 13) { //enter
+                toEnter();
+            }
+            else if(event.keyCode == 27) { //esc
+                toEsc();
+            }
+            $(".gItemFloat").attr("src","./images/g" + (index + 1) + ".jpg");
+        });
+    </script>
+</body>
+</html>
